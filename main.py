@@ -40,7 +40,10 @@ def getcode():
 def gen_code():
     code=""
     for i in range(4):
-        code+=random.randrange(0,10)
+        new_digit=str(random.randrange(0,10))
+        while new_digit in code:
+            new_digit=str(random.randrange(0,10))
+        code+=new_digit
     return code
 
 def guess_result(guess,code):
@@ -68,15 +71,28 @@ def main():
     #start a guessing cycle
         print("Lets start a guessing!")
         guessing=True
+        bulls_user=cows_user=bulls_comp=cows_user=0
         while guessing:
             #player phase
             print("Enter your guess")
             guess=getcode()
-            print("You have {0} bulls and {1} cows".format(guess_result(guess,comp_code)))
+            bulls_user,cows_user=guess_result(guess,comp_code)
+            #maintain output of info about guesses
+            print(f"You have {bulls_user} bulls and {cows_user} cows")
+            #computer phase
+            bulls_comp,cows_comp=guess_result(gen_code(),user_code)
+            #maintain output of info about guesses
+            print(f"Computer has {bulls_comp} bulls and {cows_comp} cows")
+            if bulls_user==4 or bulls_comp==4:
+                guessing=False
 
-
-    #maintain output of info about guesses
     #when sb guessed exit loop and output winning info
+        if bulls_user==4 and bulls_comp==4:
+            print("It's draw!!!")
+        elif bulls_comp==4:
+            print("You lose(")
+        else:
+            print("You win")
 
     #ask to play again
         print("Want to play again?(if want to exit enter 'q' or 'Q')")
