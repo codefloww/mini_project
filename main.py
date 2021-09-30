@@ -4,11 +4,10 @@ Bulls and cows is a classic game about guessing a 4-digit number.
 You are playing against computer.
 If you guessed a digit, but it's not in a proper position you have +1 cow.
 If you guessed a digit on its proper position you have +1 bull.
-
-
-
 '''
 import random
+
+
 def welcome():
     print("Welcome to a game of bulls and cows!")
     print("In this game you supposed to quess a 4-digit code of computer")
@@ -17,6 +16,7 @@ def welcome():
     print("a digit on it's proper place. You try to guess a code first.")
     print("if you want to finish enter 'q' or 'Q' in terminal")
 
+
 def getcode():
     print("Enter a code with 4 different digits")
     code=input(">>> ")
@@ -24,6 +24,7 @@ def getcode():
     try:
         int(code)
     except:
+        print("It mustn't contain letters")
         code=getcode()
     if length==4:
         print("Your code was saved")
@@ -37,6 +38,7 @@ def getcode():
                 code=getcode()
     return code
 
+
 def gen_code():
     code=""
     for i in range(4):
@@ -45,6 +47,7 @@ def gen_code():
             new_digit=str(random.randrange(0,10))
         code+=new_digit
     return code
+
 
 def guess_result(guess,code):
     bulls=0
@@ -56,11 +59,12 @@ def guess_result(guess,code):
             elif i!=j and guess[i]==code[j]:
                 cows+=1
     return bulls,cows
+
+
 def main():
-
-
 #generate a welcoming message
     welcome()
+
 #start a game loop
     while True:
     #ask for a code
@@ -68,10 +72,12 @@ def main():
 
     #generate a code for a computer
         comp_code=gen_code()
+
     #start a guessing cycle
-        print("Lets start a guessing!")
+        print("Lets start guessing!")
         guessing=True
         bulls_user=cows_user=bulls_comp=cows_user=0
+
         while guessing:
             #player phase
             print("Enter your guess")
@@ -97,8 +103,8 @@ def main():
     #ask to play again
         print("Want to play again?(if want to exit enter 'q' or 'Q')")
         exit=input(">>> ")
-        if exit in "Qq":
+        if exit =="q" or exit=="Q":
             break
-    #when sb guessed exit loop and output winning info
+
 if __name__=="__main__":
     main()
