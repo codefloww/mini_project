@@ -37,6 +37,20 @@ def getcode():
                 code=getcode()
     return code
 
+    
+def hint(num,used,code):
+    if (num%3==0) and (not used) and (num>4):
+        print("Want a hint?(Press 'y' to choose")
+        h=input(">>> ")
+        if h=="y":
+            used=True
+            print("Choose which digit you want to know")
+            try:
+                pos=int(input(">>> "))
+                print(code[pos-1])
+            except:
+                print("You missed a chance for hint")
+    return used
 
 def gen_code():
     code=""
@@ -63,12 +77,12 @@ def guess_result(guess,code):
 def main():
 #generate a welcoming message
     welcome()
-
 #start a game loop
     while True:
     #ask for a code
         user_code=getcode()
         print("Your code was saved\n")
+
     #generate a code for a computer
         comp_code=gen_code()
 
@@ -76,11 +90,17 @@ def main():
         print("Lets start guessing!")
         guessing=True
         bulls_user=cows_user=bulls_comp=cows_user=0
-    
+        #start counter for guesses
+        count_guesses=0
+        used_hint=False
+
         while guessing:
             #player phase
+            used_hint=hint(count_guesses,used_hint,comp_code)
             guess=getcode()
+            count_guesses+=1
             bulls_user,cows_user=guess_result(guess,comp_code)
+
             #maintain output of info about guesses
             print(f"You have {bulls_user} bulls and {cows_user} cows")
             #computer phase
