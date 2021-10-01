@@ -38,7 +38,7 @@ def getcode():
     return code
 
     
-def hint(num,used,code):
+def hint(num,code):
     if (num%3==0) and (num>4):
         print("Want a hint?(Press 'y' to choose")
         h=input(">>> ")
@@ -85,10 +85,9 @@ def game():
     guessing=True
     bulls_user=cows_user=bulls_comp=cows_user=0
     count_guesses=0
-    used_hint=False
     while guessing:
         #player phase
-        hint()
+        hint(count_guesses,comp_code)
         guess=getcode()
         bulls_user,cows_user=guess_result(guess,comp_code)
         #maintain output of info about guesses
