@@ -62,7 +62,10 @@ def gen_code():
         code+=new_digit
     lucky_guess=random.random()
     if lucky_guess<0.035:
-        return user_code
+        try:
+            return user_code
+        except:
+            return "1307"
     else:
         return code
 
