@@ -61,7 +61,7 @@ def gen_code():
             new_digit=str(random.randrange(0,10))
         code+=new_digit
     lucky_guess=random.random()
-    if lucky_guess<0.05:
+    if lucky_guess<0.035:
         return user_code
     else:
         return code
@@ -81,6 +81,7 @@ def guess_result(guess,code):
 
 def game():
 #ask for a code
+    global user_code
     user_code=getcode()
     print("Your code was saved\n")
     print("Lets start guessing!")
@@ -98,7 +99,7 @@ def game():
         guess=getcode()
         count_guesses+=1
         bulls_user,cows_user=guess_result(guess,comp_code)
-        
+
         #maintain output of info about guesses
         print(f"You have {bulls_user} bulls and {cows_user} cows")
         #computer phase
@@ -110,24 +111,23 @@ def game():
 
 #when sb guessed exit loop and output winning info
     if bulls_user==4 and bulls_comp==4:
-        print("It's draw")
+        print("You somehow managed to draw this :|")
     elif bulls_comp==4:
-        print("You lose(")
+        print("Oh nooo, you lose, anyway")
     else:
         print("You win!")
 
+    #asking for a replay
+    print("Want to play again?(Press 'y' or 'Y')")
+    resume=input(">>> ")
+    if resume =="y" or resume=="Y":
+        game()
 
 def main():
 #generate a welcoming message
     welcome()
 #start a game loop
     game()
-    #ask to play again
-    print("Want to play again?(Press 'y' or 'Y')")
-    resume=input(">>> ")
-    if resume =="y" or resume=="Y":
-        game()
-
-
+    
 if __name__=="__main__":
     main()
