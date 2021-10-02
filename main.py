@@ -6,7 +6,7 @@ If you guessed a digit, but it's not in a proper position you have 1 cow.
 If you guessed a digit on its proper position you have 1 bull.
 '''
 import random
-
+from sys import exit
 
 def welcome():
     print("Welcome to a game of bulls and cows!")
@@ -22,6 +22,8 @@ def getcode():
     print("Enter a code with 4 different digits")
     code=input(">>> ")
     length=len(code)
+    if code=="exit":
+        exit()
     try:
         int(code)
     except:
@@ -58,7 +60,11 @@ def gen_code():
         while new_digit in code:
             new_digit=str(random.randrange(0,10))
         code+=new_digit
-    return code
+    lucky_guess=random.random()
+    if lucky_guess<0.05:
+        return user_code
+    else:
+        return code
 
 
 def guess_result(guess,code):
@@ -77,19 +83,22 @@ def game():
 #ask for a code
     user_code=getcode()
     print("Your code was saved\n")
-#generate a code for a computer
-    comp_code=gen_code()
-
-#start a guessing cycle
     print("Lets start guessing!")
     guessing=True
     bulls_user=cows_user=bulls_comp=cows_user=0
     count_guesses=0
+
+#generate a code for a computer
+    comp_code=gen_code()
+
+#start a guessing cycle
     while guessing:
         #player phase
         hint(count_guesses,comp_code)
         guess=getcode()
+        count_guesses+=1
         bulls_user,cows_user=guess_result(guess,comp_code)
+        
         #maintain output of info about guesses
         print(f"You have {bulls_user} bulls and {cows_user} cows")
         #computer phase
@@ -118,6 +127,7 @@ def main():
     resume=input(">>> ")
     if resume =="y" or resume=="Y":
         game()
+
 
 if __name__=="__main__":
     main()
