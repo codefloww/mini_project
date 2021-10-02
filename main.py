@@ -8,13 +8,14 @@ If you guessed a digit on its proper position you have 1 bull.
 import random
 from sys import exit
 
+
 def welcome():
     print("Welcome to a game of bulls and cows!")
     print("In this game you supposed to quess a 4-digit code of computer")
     print("faster than your opponent. You print a random 4 different digits and get")
     print("cows(if you guess a digit but not on its place) and bulls(if")
-    print("a digit on it's proper place. You try to guess a code first.")
-    print("if you want to finish enter 'q' or 'Q' in terminal")
+    print("a digit on it's proper place). You try to guess a code first.")
+    print("If you want to finish enter 'q' or 'Q' in terminal")
     print()
 
 
@@ -22,8 +23,10 @@ def getcode():
     print("Enter a code with 4 different digits")
     code=input(">>> ")
     length=len(code)
+
     if code=="exit":
         exit()
+    #check correctness of input
     try:
         int(code)
     except:
@@ -42,9 +45,12 @@ def getcode():
     
 def hint(num,code):
     if (num%3==0) and (num>4):
-        print("Want a hint?(Press 'y' to choose")
+        print("Want a hint?(Press 'y' to choose)")
         h=input(">>> ")
-        if h=="y":
+
+        if h=="exit":
+            exit()
+        elif h=="y":
             used=True
             print("Choose which digit you want to know")
             try:
@@ -52,6 +58,9 @@ def hint(num,code):
                 print(code[pos-1])
             except:
                 print("You missed a chance for hint")
+        else:
+            print("Okay, you're not searching easy ways")
+
 
 def gen_code():
     code=""
@@ -60,8 +69,10 @@ def gen_code():
         while new_digit in code:
             new_digit=str(random.randrange(0,10))
         code+=new_digit
+
     lucky_guess=random.random()
-    if lucky_guess<0.035:
+    if lucky_guess<chance:
+    #if somehow user haven't passed their code yet
         try:
             return user_code
         except:
@@ -82,23 +93,42 @@ def guess_result(guess,code):
     return bulls,cows
 
 
-def game():
+def difficulty():
+    print("""Choose a difficulty level:
+            Pro(press 'p')
+            Semi-pro(press 's')
+            Beginner(press 'b')""")
+    level=input()
+    
+    if (len(level)!=1) or (level not in "psb"):
+        print("You failed to choose a difficulty")
+        difficulty()
+    return level
+
+    
+def game(level):
 #ask for a code
     global user_code
+    global chance
+
     user_code=getcode()
     print("Your code was saved\n")
+
     print("Lets start guessing!")
     guessing=True
     bulls_user=cows_user=bulls_comp=cows_user=0
     count_guesses=0
-
+    chance=0.04 if level=="b" else 0.07
+    
 #generate a code for a computer
     comp_code=gen_code()
 
 #start a guessing cycle
     while guessing:
         #player phase
-        hint(count_guesses,comp_code)
+        if level!="p":
+            hint(count_guesses,comp_code)
+        
         guess=getcode()
         count_guesses+=1
         bulls_user,cows_user=guess_result(guess,comp_code)
@@ -124,13 +154,15 @@ def game():
     print("Want to play again?(Press 'y' or 'Y')")
     resume=input(">>> ")
     if resume =="y" or resume=="Y":
-        game()
+        game(level)
 
 def main():
 #generate a welcoming message
     welcome()
+    global difficulty_level
+    difficulty_level=difficulty()
 #start a game loop
-    game()
+    game(difficulty_level)
     
 if __name__=="__main__":
     main()
