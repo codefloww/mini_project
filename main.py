@@ -11,18 +11,29 @@ If you guessed a digit on its proper position you have 1 bull.
 import random
 from sys import exit
 
-
+def help():
+    print("""The goal of game is to guess a code of 
+    computer(get four bulls).While you do this computer tries to guess yours
+    Firstly you type your code which computer will try to guess. Then every
+    move you type a 4-digit code which you think computer have choosed.
+    If in this guess there are digits on proper place you will have 1 bull 
+    for it. And if you guessed digits but in different places you get cows.
+    You get hint every 3 moves if you're not in pro difficulty. Also you can
+    exit in any moment by typing 'exit'. 
+    
+                """)
 def welcome():
     print("""     [@@]  <-COB
     <|##|>
      d  b""")
     print("""Heeey, welcome to my game of bulls and cows!
-            In this game you supposed to quess a 4-digit code 
+            In this game you supposed to guess a 4-digit code 
             of computer faster than it guesses yours. You print
             a random 4 different digits and get cows(if you guess
             a digit but not on its place) and bulls (if a digit
             on it's proper place). You try to guess a code first.
-            If you want to finish enter 'exit' in terminal\n""")
+            If you want to finish enter 'exit' in terminal\n
+            If something is unclear type 'help'""")
 
 
 def getcode():
@@ -32,7 +43,9 @@ def getcode():
 
     if code=="exit":
         exit()
-        
+    elif code=="help":
+        help()
+        getcode()
     #check correctness of input
     try:
         int(code)
@@ -109,6 +122,9 @@ def difficulty():
     level=input(">>> ")
     if level=="exit":
         exit()
+    elif level=="help":
+        help()
+        difficulty()
     elif (len(level)!=1) or (level not in "psb"):
         print("You failed to choose a difficulty")
         difficulty()
@@ -137,15 +153,17 @@ def game(level):
         if level!="p":
             hint(count_guesses,comp_code)
         
-        guess=getcode()
+        user_guess=getcode()
+        comp_guess=gen_code()
         count_guesses+=1
-        bulls_user,cows_user=guess_result(guess,comp_code)
+        bulls_user,cows_user=guess_result(user_guess,comp_code)
 
         #maintain output of info about guesses
         print(f"You have {bulls_user} bulls and {cows_user} cows")
         #computer phase
-        bulls_comp,cows_comp=guess_result(gen_code(),user_code)
+        bulls_comp,cows_comp=guess_result(comp_guess,user_code)
         #maintain output of info about guesses
+        print(f"Computer guess is {comp_guess}")
         print(f"Computer has {bulls_comp} bulls and {cows_comp} cows\n")
         if bulls_user==4 or bulls_comp==4:
             guessing=False
