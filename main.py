@@ -1,17 +1,18 @@
-'''
-bulls and cows
-Bulls and cows is a classic game about guessing a 4-digit number.
+#mini_project.py
+"""Bulls and cows is a classic game about guessing a 4-digit number.
 You are playing against computer.
 If you guessed a digit, but it's not in a proper position you have 1 cow.
 If you guessed a digit on its proper position you have 1 bull.
-'''
+"""
 #local highscore table
 #maybe add a hint with sum or smth
 #maybe add a help function
 import random
-from sys import exit
 
-def help():
+def help()->None:
+    """A function prints text info in terminal about a mechanics of game
+    
+    Returns: None"""
     print("""The goal of game is to guess a code of 
     computer(get four bulls).While you do this computer tries to guess yours
     Firstly you type your code which computer will try to guess. Then every
@@ -22,21 +23,29 @@ def help():
     exit in any moment by typing 'exit'. 
     
                 """)
-def welcome():
+def welcome()->None:
+    """Prints an introduction to the game
+
+    Returns: None"""
     print("""     [@@]  <-COB
     <|##|>
      d  b""")
     print("""Heeey, welcome to my game of bulls and cows!
-            In this game you supposed to guess a 4-digit code 
+            In this game you are supposed to guess a 4-digit code 
             of computer faster than it guesses yours. You print
             a random 4 different digits and get cows(if you guess
             a digit but not on its place) and bulls (if a digit
             on it's proper place). You try to guess a code first.
-            If you want to finish enter 'exit' in terminal\n
-            If something is unclear type 'help'""")
+            If you want to finish enter 'exit' in terminal
+            If something is unclear type 'help'\n""")
 
 
-def getcode():
+def getcode()->str:
+    """Gets and returns a code from user. Also can get an exit
+    or help request from user.
+
+    Returns:
+        code: a string representing guess of code"""
     print("Enter a code with 4 different digits")
     code=input(">>> ")
     length=len(code)
@@ -63,13 +72,21 @@ def getcode():
     return code
 
     
-def hint(num,code):
+def hint(num:int,code:str)->None:
+    """Asks for a hint. Not available for difficulty pro.
+    
+    Args:
+        num(int): A number of guesses which were maden
+        code(str): A code for which we have a hint
+    
+    Returns:None
+    """
     if (num%3==1) and (num>3):
         print("Want a hint?(Press 'y' to choose)")
         h=input(">>> ")
 
         if h=="exit":
-            exit()
+            quit()
         elif h=="y":
             used=True
             print("Choose which digit you want to know")
@@ -82,14 +99,19 @@ def hint(num,code):
             print("Okay, you're not searching easy ways")
 
 
-def gen_code():
+def gen_code()->str:
+    """A function that generates a random string of 4 digit(code)
+
+    Returns:
+        code(str):A code which is used as a guess for comp
+    """
     code=""
     for i in range(4):
         new_digit=str(random.randrange(0,10))
         while new_digit in code:
             new_digit=str(random.randrange(0,10))
         code+=new_digit
-    chance=0.035 if level=="b" else 0.065
+    chance=0.05 if level=="b" else 0.09
     lucky_guess=random.random()
     if lucky_guess<chance:
     #if somehow user haven't passed their code yet
@@ -101,7 +123,19 @@ def gen_code():
         return code
 
 
-def guess_result(guess,code):
+def guess_result(guess:str,code:str)->int:
+    """Gets a guess of code and a code and returns how many digits 
+    are guessed on proper place and other places.
+    
+    Args:
+        guess(str):A string of 4 digit from a player
+        code(str):A string of 4 digit(starting code) to compare
+        with guess
+        
+    Returns:
+        bulls(int):A number of digits on its proper place
+        cows(int):A number of digits which are in code but not in
+        proper place"""
     bulls=0
     cows=0
     for i in range(4):
@@ -113,7 +147,12 @@ def guess_result(guess,code):
     return bulls,cows
 
 
-def difficulty():
+def difficulty()->str:
+    """A function which prints out difficulty levels and returns 
+    chosen by user level
+    
+    Returns:
+        level(str):A level of difficulry represented by letter"""
     global level
     print("""Choose a difficulty level:
             Pro(press 'p')
@@ -131,7 +170,15 @@ def difficulty():
     return level
 
     
-def game(level):
+def game(level:str)->None:
+    """Maintain process of a single game with certain difficutly
+    
+    Args:
+        level(str):A difficulty level that influence on chance of 
+        computer guessing and abbility to have a hint
+    
+    Returns:None
+        """
 #ask for a code
     global user_code
 
@@ -186,7 +233,9 @@ def game(level):
         game(level)
 
 
-def main():
+def main()->None:
+    """Maintain a full program and its processes
+    Returns:None"""
 #generate a welcoming message
     welcome()
     global difficulty_level
