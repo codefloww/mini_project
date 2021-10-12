@@ -49,7 +49,6 @@ def getcode()->str:
     """    
     print("Enter a code with 4 different digits")
     code=input(">>> ")
-    length=len(code)
 
     if code=="exit":
         quit()
@@ -58,7 +57,7 @@ def getcode()->str:
         getcode()
     #check correctness of input
     if code.isdecimal():
-        if length!=4:
+        if len(code)!=4:
             print("Your code hasn't 4 digits")
             code=getcode()
         
@@ -67,10 +66,11 @@ def getcode()->str:
                 if i!=j and code[i]==code[j]:
                     print("It has to be 4 different digits!")
                     code=getcode()
-        return code
     else:
-        print("It must consists of digits")
+        print("It must consist of digits")
         code=getcode()
+        
+    return code
     
 def hint(num:int,code:str)->None:
     """Asks for a hint. Not available for difficulty 'pro'.
@@ -97,7 +97,7 @@ def hint(num:int,code:str)->None:
             print("Okay, you're not searching easy ways")
 
 
-def gen_code(user_code:str, lev: str )->str:
+def gen_code(user_code:str, lev:str)->str:
     """A function that generates a random string of 4 digit(code)
 
     Args:
