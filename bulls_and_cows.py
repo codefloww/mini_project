@@ -57,21 +57,20 @@ def getcode()->str:
         help()
         getcode()
     #check correctness of input
-    try:
-        int(code)
-    except:
+    if code.isdecimal():
+        if length!=4:
+            print("Your code hasn't 4 digits")
+            code=getcode()
+        
+        for i in range(4):
+            for j in range(4):
+                if i!=j and code[i]==code[j]:
+                    print("It has to be 4 different digits!")
+                    code=getcode()
+        return code
+    else:
         print("It must consists of digits")
         code=getcode()
-    if length!=4:
-        print("Your code hasn't 4 digits")
-        code=getcode()
-    for i in range(4):
-        for j in range(4):
-            if i!=j and code[i]==code[j]:
-                print("It has to be 4 different digits!")
-                code=getcode()
-    return code
-
     
 def hint(num:int,code:str)->None:
     """Asks for a hint. Not available for difficulty 'pro'.
@@ -98,7 +97,7 @@ def hint(num:int,code:str)->None:
             print("Okay, you're not searching easy ways")
 
 
-def gen_code(user_code:str="0123",lev:str= 'b')->str:
+def gen_code(user_code:str, lev: str )->str:
     """A function that generates a random string of 4 digit(code)
 
     Args:
@@ -121,7 +120,7 @@ def gen_code(user_code:str="0123",lev:str= 'b')->str:
     return code
 
 
-def guess_result(guess:str,code:str)->int:
+def guess_result(guess:str, code:str)->int:
     """Gets a guess of code and a code and returns how many digits 
     are guessed on proper place and other places.
     
@@ -169,7 +168,7 @@ def difficulty()->str:
     return level
 
     
-def game(level:str = 's')->None:
+def game(level:str)->None:
     """Maintain process of a single game with certain difficutly
     
     Args:
@@ -186,7 +185,7 @@ def game(level:str = 's')->None:
     count_guesses=0
 
     #generate a code for a computer
-    comp_code=gen_code()
+    comp_code=gen_code(user_code,level)
 
     #start a guessing cycle
     while guessing:
