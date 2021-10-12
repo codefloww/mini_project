@@ -127,12 +127,12 @@ def guess_result(guess:str, code:str)->int:
     Args:
         guess(str):A string of 4 digit from a player
         code(str):A string of 4 digit(starting code) to compare
-        with guess
+            with guess
         
     Returns:
         bulls(int):A number of digits on its proper place
         cows(int):A number of digits which are in code but not in
-        proper place
+            proper place
     """
     bulls=0
     cows=0
@@ -173,7 +173,7 @@ def game(level:str)->None:
     
     Args:
         level(str):A difficulty level that influence on chance of 
-        computer guessing and abbility to have a hint
+            computer guessing and abbility to have a hint
     """
     #ask for a code
     user_code=getcode()
